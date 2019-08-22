@@ -1,4 +1,6 @@
-require "aasm_to_plantuml/version"
+# frozen_string_literal: true
+
+require 'aasm_to_plantuml/version'
 
 module AasmToPlantuml
   class Error < StandardError; end
