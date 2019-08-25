@@ -60,5 +60,11 @@ RSpec.describe AasmToPlantuml::DepthFirstSearch do
 
       it { is_expected.to eq node8 }
     end
+
+    context 'value: 9' do
+      let(:value) { 9 }
+
+      it { is_expected.to be_nil }
+    end
   end
 end

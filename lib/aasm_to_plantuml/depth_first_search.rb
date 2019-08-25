@@ -23,8 +23,6 @@ module AasmToPlantuml
     end
 
     def find_from_children(children)
-      return nil if children.nil?
-
       head = children.first
       return nil if head.nil?
 
