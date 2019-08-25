@@ -67,4 +67,15 @@ RSpec.describe AasmToPlantuml::Aasm::Block do
       it { is_expected.to eq :waiting }
     end
   end
+
+  describe '#events' do
+    subject(:events) { described_class.new(ast_block).events }
+
+    it 'return events' do
+      is_expected.to all be_an_instance_of(AasmToPlantuml::Aasm::Event)
+
+      expect(events[0].name).to eq :start
+      expect(events[1].name).to eq :finish
+    end
+  end
 end

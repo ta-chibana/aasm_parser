@@ -27,6 +27,10 @@ module AasmToPlantuml
           .flat_map(&:children)
       end
 
+      def events
+        event_nodes.map { |event_node| Event.parse(event_node) }
+      end
+
       private
 
       attr_reader :root
@@ -55,6 +59,10 @@ module AasmToPlantuml
         return false if hash_node.nil?
 
         hash_node.children.first.children.one? { |n| n&.type == :TRUE }
+      end
+
+      def event_nodes
+        children.select { |node| node.type == :ITER }
       end
     end
   end
