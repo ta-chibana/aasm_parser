@@ -8,7 +8,15 @@ module AasmToPlantuml
       end
 
       def initial_state
-        # TODO: return state with `initial: true`
+        children
+          .select(&method(:calling_state_node?))
+          .find(&method(:initial_state_node?))
+          .children
+          .last
+          .children
+          .find(&method(:state_node?))
+          .children
+          .first
       end
 
       def states
@@ -33,6 +41,20 @@ module AasmToPlantuml
 
       def state_node?(node)
         node.present? && node.type == :LIT
+      end
+
+      def initial_state_node?(node)
+        return false unless node.type == :FCALL
+
+        hash_node = node
+                    .children
+                    .last
+                    .children
+                    .find { |n| n&.type == :HASH }
+
+        return false if hash_node.nil?
+
+        hash_node.children.first.children.one? { |n| n&.type == :TRUE }
       end
     end
   end
