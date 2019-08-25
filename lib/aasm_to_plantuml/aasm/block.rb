@@ -12,13 +12,11 @@ module AasmToPlantuml
       end
 
       def states
-        state_nodes.flat_map do |node|
-          node
-            .children
-            .last
-            .children
-            .flat_map { |lit| lit.present? ? lit.children : nil }
-        end.compact
+        children
+          .select(&method(:calling_state_node?))
+          .flat_map { |node| node.children.last.children }
+          .select(&method(:state_node?))
+          .flat_map(&:children)
       end
 
       private
@@ -29,10 +27,12 @@ module AasmToPlantuml
         @children ||= root.children
       end
 
-      def state_nodes
-        children.select do |node|
-          node.type == :FCALL && node.children.first == :state
-        end
+      def calling_state_node?(node)
+        node.type == :FCALL && node.children.first == :state
+      end
+
+      def state_node?(node)
+        node.present? && node.type == :LIT
       end
     end
   end

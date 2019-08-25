@@ -5,7 +5,7 @@ RSpec.describe AasmToPlantuml::Aasm::Block do
     <<~CODE
       class Test
         aasm column: :status do
-          # state :waiting, initial: true
+          state :waiting, initial: true
           state :in_progress, :in_review
           state :finished
 
@@ -34,6 +34,6 @@ RSpec.describe AasmToPlantuml::Aasm::Block do
   describe '#states' do
     subject { described_class.new(ast_block).states }
 
-    it { is_expected.to eq %i[in_progress in_review finished] }
+    it { is_expected.to eq %i[waiting in_progress in_review finished] }
   end
 end

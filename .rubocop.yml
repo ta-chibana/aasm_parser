@@ -16,6 +16,8 @@ Metrics/BlockLength:
     - 'spec/**/*'
 Style/Documentation:
   Enabled: false
+Metrics/LineLength:
+  Max: 100
 AllCops:
   Exclude:
     - 'vendor/**/*'
