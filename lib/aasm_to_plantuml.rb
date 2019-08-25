@@ -2,6 +2,7 @@
 
 require 'aasm_to_plantuml/version'
 require 'aasm_to_plantuml/aasm_node_finder'
+require 'aasm_to_plantuml/aasm/block'
 require 'aasm_to_plantuml/depth_first_search'
 require 'active_support/core_ext/object/try'
 require 'active_support/core_ext/object/blank'
