@@ -14,7 +14,10 @@ Style/AsciiComments:
 Metrics/BlockLength:
   Exclude:
     - 'spec/**/*'
+Style/Documentation:
+  Enabled: false
 AllCops:
   Exclude:
     - 'vendor/**/*'
     - 'aasm_to_plantuml.gemspec'
+    - 'Guardfile'
