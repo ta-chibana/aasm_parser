@@ -6,7 +6,16 @@ RSpec.describe AasmToPlantuml::AasmNodeFinder do
       <<~CODE
         class Test
           aasm column: :status do
-            state :waiting
+            state :waiting, initial: true
+            state :in_progress, :finished
+
+            event :start do
+              transitions from: :waiting, to: :in_progress
+            end
+
+            event :finish do
+              transitions from: :in_progress, to: :finished
+            end
           end
         end
       CODE
@@ -16,10 +25,11 @@ RSpec.describe AasmToPlantuml::AasmNodeFinder do
 
     subject(:target_node) { described_class.call(node) }
 
-    it 'typeが `:FCALL` のnodeが取得できる' do
-      expect(target_node.type).to eq :FCALL
-      expect(target_node.children.first).to eq :aasm
-      expect(target_node.children.last.type).to eq :ARRAY
+    it 'aasm のスコープの要素が取得できる' do
+      expect(target_node.type).to eq :ITER
+      expect(target_node.children.size).to eq 2
+      expect(target_node.children.first.type).to eq :FCALL
+      expect(target_node.children.last.type).to eq :SCOPE
     end
   end
 end

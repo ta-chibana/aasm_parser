@@ -15,17 +15,13 @@ module AasmToPlantuml
 
     attr_reader :root
 
-    # `children` が `:aasm` の :FCALL 要素を取得する
-    # :FCALL 要素の `children` は要素数2
-    #   [0] ... :aasm
-    #   [1] ... `.aasm` の引数を表す :ARRAY
     def call
       find_from_node(root)
     end
 
     def find_from_node(node)
       return nil unless node.respond_to?(:type)
-      return node if calling_aasm_node?(node)
+      return node if node_of_aasm_scope?(node)
 
       children = node.children
       find_from_children(children)
@@ -41,10 +37,14 @@ module AasmToPlantuml
       find_from_children(tail)
     end
 
-    def calling_aasm_node?(node)
-      return false unless node.try(:type) == :FCALL
+    # `aasm { ... }` の要素を取得するための条件
+    def node_of_aasm_scope?(node)
+      return false unless node.try(:type) == :ITER
 
-      node.children.first == :aasm
+      first_child = node.children.first
+      return false unless first_child.type == :FCALL
+
+      first_child.children.first == :aasm
     end
   end
 end
