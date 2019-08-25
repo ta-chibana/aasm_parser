@@ -22,12 +22,4 @@ RSpec.describe AasmToPlantuml::AasmNodeFinder do
       expect(target_node.children.last.type).to eq :ARRAY
     end
   end
-
-  describe '#calling_aasm_node?' do
-    let(:node) { double(type: :FCALL, children: [:aasm, []]) }
-
-    subject { described_class.new(double).calling_aasm_node?(node) }
-
-    it { is_expected.to be true }
-  end
 end

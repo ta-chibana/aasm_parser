@@ -11,12 +11,6 @@ module AasmToPlantuml
       new(root).send(:call)
     end
 
-    def calling_aasm_node?(node)
-      return false unless node.try(:type) == :FCALL
-
-      node.children.first == :aasm
-    end
-
     private
 
     attr_reader :root
@@ -45,6 +39,12 @@ module AasmToPlantuml
       return result if result
 
       find_from_children(tail)
+    end
+
+    def calling_aasm_node?(node)
+      return false unless node.try(:type) == :FCALL
+
+      node.children.first == :aasm
     end
   end
 end
