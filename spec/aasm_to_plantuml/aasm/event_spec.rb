@@ -20,6 +20,7 @@ RSpec.describe AasmToPlantuml::Aasm::Event do
       is_expected.to be_an_instance_of AasmToPlantuml::Aasm::Event
 
       expect(instance.name).to eq :start
+      expect(instance.transitions_node.children.first).to eq :transitions
     end
   end
 end
