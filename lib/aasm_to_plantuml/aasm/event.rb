@@ -3,13 +3,13 @@
 module AasmToPlantuml
   module Aasm
     class Event
-      attr_reader :name, :transitions_node
+      attr_reader :name, :transition_nodes
 
       class << self
         def parse(event_node)
           name = find_name_from_node(event_node)
-          transtions_node = find_transitions_node_from_node(event_node)
-          new(name: name, transitions_node: transtions_node)
+          transition_nodes = find_transition_nodes_from_node(event_node)
+          new(name: name, transition_nodes: transition_nodes)
         end
 
         private
@@ -31,21 +31,25 @@ module AasmToPlantuml
           find_name_from_children(tail)
         end
 
-        def find_transitions_node_from_node(node)
+        def find_transition_nodes_from_node(node)
           return nil unless node.respond_to?(:type)
-          return node if transitions_node?(node)
 
-          find_transitions_node_from_children(node.children)
+          nodes = []
+          nodes << node if transitions_node?(node)
+          nodes << find_transitions_node_from_children(node.children)
+
+          nodes.flatten.compact
         end
 
         def find_transitions_node_from_children(children)
           return nil if children.blank?
 
           head, *tail = children
-          result = find_transitions_node_from_node(head)
-          return result if result
+          nodes = []
+          nodes << find_transition_nodes_from_node(head)
+          nodes << find_transitions_node_from_children(tail)
 
-          find_transitions_node_from_children(tail)
+          nodes.flatten.compact
         end
 
         def transitions_node?(node)
@@ -53,9 +57,9 @@ module AasmToPlantuml
         end
       end
 
-      def initialize(name:, transitions_node:)
+      def initialize(name:, transition_nodes:)
         @name = name
-        @transitions_node = transitions_node
+        @transition_nodes = transition_nodes
       end
 
       def transitions
