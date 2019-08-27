@@ -12,6 +12,10 @@ module AasmToPlantuml
       find_from_node(root)
     end
 
+    def select_by(&block)
+      select_from_node(root, &block)
+    end
+
     private
 
     attr_reader :root, :value
@@ -31,6 +35,26 @@ module AasmToPlantuml
 
       tail = children[1..-1]
       find_from_children(tail)
+    end
+
+    def select_from_node(node, &block)
+      nodes = []
+
+      nodes << node if !node.value.nil? && yield(node)
+      nodes << select_from_children(node.children, &block)
+
+      nodes.flatten.compact
+    end
+
+    def select_from_children(children, &block)
+      head, *tail = children
+      return nil if head.nil?
+
+      nodes = []
+      nodes << select_from_node(head, &block)
+      nodes << select_from_children(tail, &block)
+
+      nodes.flatten.compact
     end
   end
 end
