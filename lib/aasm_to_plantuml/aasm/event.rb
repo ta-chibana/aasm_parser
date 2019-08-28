@@ -63,7 +63,7 @@ module AasmToPlantuml
       end
 
       def transitions
-        # TODO: implements it
+        Transition.parse_from(self)
       end
     end
   end
