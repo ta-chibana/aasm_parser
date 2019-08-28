@@ -53,28 +53,28 @@ RSpec.describe AasmToPlantuml::Aasm::Event do
   end
 
   describe '#transitions' do
-    subject(:transitions) { described_class.parse(event_node).transitions }
+    let(:code) do
+      <<~CODE
+        event :start do
+          transitions from: :waiting, to: :in_progress
+          transitions from: :pending, to: :in_progress
+        end
+      CODE
+    end
 
-    context 'when without options' do
-      let(:code) do
-        <<~CODE
-          event :start do
-            transitions from: :waiting, to: :in_progress
-            transitions from: :pending, to: :in_progress
-          end
-        CODE
-      end
+    let(:event_node) { RubyVM::AbstractSyntaxTree.parse(code).children.last }
+    let(:event) { described_class.parse(event_node) }
+    let(:transitions) { double(:transitions) }
 
-      let(:event_node) do
-        RubyVM::AbstractSyntaxTree.parse(code).children.last
-      end
+    subject { event.transitions }
 
-      it 'return transitions' do
-        expect(transitions[0].from).to eq :waiting
-        expect(transitions[0].to).to eq :in_progress
-        expect(transitions[1].from).to eq :pending
-        expect(transitions[1].to).to eq :in_progress
-      end
+    it 'return transitions' do
+      expect(AasmToPlantuml::Aasm::Transition)
+        .to receive(:parse_from)
+        .with(event)
+        .and_return(transitions)
+
+      is_expected.to eq transitions
     end
   end
 end
