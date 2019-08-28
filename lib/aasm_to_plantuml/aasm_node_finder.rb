@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 module AasmToPlantuml
-  # ASTから `aasm` が呼び出されているnodeを取得する
   class AasmNodeFinder
     def initialize(root)
       @root = root
@@ -37,7 +36,6 @@ module AasmToPlantuml
       find_from_children(tail)
     end
 
-    # `aasm { ... }` の要素を取得するための条件
     def node_of_aasm_scope?(node)
       return false unless node.try(:type) == :ITER
 

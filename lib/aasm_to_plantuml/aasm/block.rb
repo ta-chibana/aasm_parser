@@ -3,8 +3,37 @@
 module AasmToPlantuml
   module Aasm
     class Block
+      class << self
+        def parse(aasm_node)
+          new(find_aasm_block_from_node(aasm_node))
+        end
+
+        private
+
+        def find_aasm_block_from_node(node)
+          return nil unless node.respond_to?(:type)
+          return node if block_node?(node)
+
+          find_aasm_block_from_children(node.children)
+        end
+
+        def find_aasm_block_from_children(children)
+          return nil if children.blank?
+
+          head, *tail = children
+          result = find_aasm_block_from_node(head)
+          return result if result
+
+          find_aasm_block_from_children(tail)
+        end
+
+        def block_node?(node)
+          node.type == :BLOCK
+        end
+      end
+
       def initialize(ast_block)
-        @root = ast_block
+        @ast = ast_block
       end
 
       def initial_state
@@ -33,10 +62,10 @@ module AasmToPlantuml
 
       private
 
-      attr_reader :root
+      attr_reader :ast
 
       def children
-        @children ||= root.children
+        @children ||= ast.children
       end
 
       def calling_state_node?(node)

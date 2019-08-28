@@ -22,23 +22,16 @@ RSpec.describe AasmToPlantuml::Aasm::Block do
   end
 
   let(:node) { RubyVM::AbstractSyntaxTree.parse(code) }
-  let(:ast_block) do
-    AasmToPlantuml::AasmNodeFinder
-      .call(node)
-      .children
-      .last
-      .children
-      .last
-  end
+  let(:ast_block) { AasmToPlantuml::AasmNodeFinder.call(node) }
 
   describe '#states' do
-    subject { described_class.new(ast_block).states }
+    subject { described_class.parse(ast_block).states }
 
     it { is_expected.to eq %i[waiting in_progress in_review finished] }
   end
 
   describe '#initial_state' do
-    subject { described_class.new(ast_block).initial_state }
+    subject { described_class.parse(ast_block).initial_state }
 
     it { is_expected.to eq :waiting }
 
@@ -69,7 +62,7 @@ RSpec.describe AasmToPlantuml::Aasm::Block do
   end
 
   describe '#events' do
-    subject(:events) { described_class.new(ast_block).events }
+    subject(:events) { described_class.parse(ast_block).events }
 
     it 'return events' do
       is_expected.to all be_an_instance_of(AasmToPlantuml::Aasm::Event)
