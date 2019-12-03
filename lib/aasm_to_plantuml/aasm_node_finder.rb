@@ -37,7 +37,7 @@ module AasmToPlantuml
     end
 
     def node_of_aasm_scope?(node)
-      return false unless node.try(:type) == :ITER
+      return false unless node&.type == :ITER
 
       first_child = node.children.first
       return false unless first_child.type == :FCALL
