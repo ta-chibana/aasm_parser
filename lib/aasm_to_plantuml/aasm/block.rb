@@ -37,23 +37,18 @@ module AasmToPlantuml
       end
 
       def initial_state
-        children
-          .select(&method(:calling_state_node?))
-          .find(&method(:initial_state_node?))
-          .children
-          .last
-          .children
-          .find(&method(:state_node?))
-          .children
-          .first
+        state = states.find(&:initial_state?)
+        return nil if state.nil?
+
+        state.names.first
       end
 
       def states
-        children
-          .select(&method(:calling_state_node?))
-          .flat_map { |node| node.children.last.children }
-          .select(&method(:state_node?))
-          .flat_map(&:children)
+        state_nodes.map { |node| State.new(node) }
+      end
+
+      def state_names
+        states.flat_map(&:names)
       end
 
       def events
@@ -68,26 +63,10 @@ module AasmToPlantuml
         @children ||= ast.children
       end
 
-      def calling_state_node?(node)
-        node.type == :FCALL && node.children.first == :state
-      end
-
-      def state_node?(node)
-        node.present? && node.type == :LIT
-      end
-
-      def initial_state_node?(node)
-        return false unless node.type == :FCALL
-
-        hash_node = node
-                    .children
-                    .last
-                    .children
-                    .find { |n| n&.type == :HASH }
-
-        return false if hash_node.nil?
-
-        hash_node.children.first.children.one? { |n| n&.type == :TRUE }
+      def state_nodes
+        children.select do |node|
+          node.type == :FCALL && node.children.first == :state
+        end
       end
 
       def event_nodes

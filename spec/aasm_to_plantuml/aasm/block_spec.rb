@@ -24,8 +24,8 @@ RSpec.describe AasmToPlantuml::Aasm::Block do
   let(:node) { RubyVM::AbstractSyntaxTree.parse(code) }
   let(:ast_block) { AasmToPlantuml::AasmNodeFinder.call(node) }
 
-  describe '#states' do
-    subject { described_class.parse(ast_block).states }
+  describe '#state_names' do
+    subject { described_class.parse(ast_block).state_names }
 
     it { is_expected.to eq %i[waiting in_progress in_review finished] }
   end

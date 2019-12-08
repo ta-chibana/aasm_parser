@@ -3,6 +3,7 @@
 require 'aasm_to_plantuml/version'
 require 'aasm_to_plantuml/aasm_node_finder'
 require 'aasm_to_plantuml/aasm/block'
+require 'aasm_to_plantuml/aasm/state'
 require 'aasm_to_plantuml/aasm/event'
 require 'aasm_to_plantuml/aasm/transition'
 require 'aasm_to_plantuml/depth_first_search'
