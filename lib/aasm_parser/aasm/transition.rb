@@ -3,54 +3,55 @@
 module AasmParser
   module Aasm
     class Transition
-      attr_reader :from, :to
+      def initialize(transition_node)
+        @transition_node = transition_node
+      end
 
-      class << self
-        def parse_from(event)
-          transition_nodes = event.transition_nodes
-          raise unless transition_nodes.all?(&method(:valid_node?))
+      def from
+        @from ||= attributes[:from]
+      end
 
-          transition_nodes.map do |node|
-            attributes = collect_leaves_from_node(node).each_slice(2).to_h
-            new(attributes)
-          end
-        end
+      def to
+        @to ||= attributes[:to]
+      end
 
-        private
+      private
 
-        def collect_leaves_from_node(node)
-          return nil unless node.respond_to?(:type)
+      def attributes
+        @attributes ||= begin
+          raise unless valid_node?(@transition_node)
 
-          nodes = []
-          nodes << node.children.first if leaf_node?(node)
-          nodes << collect_leaves_from_children(node.children)
-
-          nodes.flatten.compact
-        end
-
-        def collect_leaves_from_children(children)
-          return [] if children.blank?
-
-          head, *tail = children
-          nodes = []
-          nodes << collect_leaves_from_node(head)
-          nodes << collect_leaves_from_children(tail)
-
-          nodes.flatten.compact
-        end
-
-        def leaf_node?(node)
-          node.type == :LIT
-        end
-
-        def valid_node?(node)
-          node.children.first == :transitions
+          collect_leaves_from_node(@transition_node).each_slice(2).to_h
         end
       end
 
-      def initialize(from:, to:)
-        @from = from
-        @to = to
+      def collect_leaves_from_node(node)
+        return nil unless node.respond_to?(:type)
+
+        nodes = []
+        nodes << node.children.first if leaf_node?(node)
+        nodes << collect_leaves_from_children(node.children)
+
+        nodes.flatten.compact
+      end
+
+      def collect_leaves_from_children(children)
+        return [] if children.blank?
+
+        head, *tail = children
+        nodes = []
+        nodes << collect_leaves_from_node(head)
+        nodes << collect_leaves_from_children(tail)
+
+        nodes.flatten.compact
+      end
+
+      def leaf_node?(node)
+        node.type == :LIT
+      end
+
+      def valid_node?(node)
+        node.children.first == :transitions
       end
     end
   end

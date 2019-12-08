@@ -15,7 +15,7 @@ RSpec.describe AasmParser::Aasm::Event do
         RubyVM::AbstractSyntaxTree.parse(code).children.last
       end
 
-      subject(:instance) { described_class.parse(event_node) }
+      subject(:instance) { described_class.new(event_node) }
 
       it 'return Event instance' do
         is_expected.to be_an_instance_of AasmParser::Aasm::Event
@@ -40,7 +40,7 @@ RSpec.describe AasmParser::Aasm::Event do
         RubyVM::AbstractSyntaxTree.parse(code).children.last
       end
 
-      subject(:instance) { described_class.parse(event_node) }
+      subject(:instance) { described_class.new(event_node) }
 
       it 'return Event instance' do
         is_expected.to be_an_instance_of AasmParser::Aasm::Event
@@ -63,18 +63,12 @@ RSpec.describe AasmParser::Aasm::Event do
     end
 
     let(:event_node) { RubyVM::AbstractSyntaxTree.parse(code).children.last }
-    let(:event) { described_class.parse(event_node) }
-    let(:transitions) { double(:transitions) }
+    let(:event) { described_class.new(event_node) }
 
     subject { event.transitions }
 
     it 'return transitions' do
-      expect(AasmParser::Aasm::Transition)
-        .to receive(:parse_from)
-        .with(event)
-        .and_return(transitions)
-
-      is_expected.to eq transitions
+      is_expected.to all be_an_instance_of(AasmParser::Aasm::Transition)
     end
   end
 end

@@ -1,32 +1,29 @@
 # frozen_string_literal: true
 
 RSpec.describe AasmParser::Aasm::Transition do
-  describe '.parse_from' do
-    subject(:transitions) { described_class.parse_from(event) }
+  let(:instance1) { described_class.new(transition_nodes[0]) }
+  let(:instance2) { described_class.new(transition_nodes[1]) }
+  let(:transition_nodes) do
+    event_node = RubyVM::AbstractSyntaxTree.parse(code).children.last
+    AasmParser::Aasm::Event.new(event_node).transition_nodes
+  end
 
-    let(:event_node) do
-      RubyVM::AbstractSyntaxTree.parse(code).children.last
-    end
-
-    let(:event) { AasmParser::Aasm::Event.parse(event_node) }
-
-    context 'when without options' do
-      let(:code) do
-        <<~CODE
-          event :start do
-            transitions from: :waiting, to: :in_progress
-            transitions from: :pending, to: :in_progress
-          end
-        CODE
+  let(:code) do
+    <<~CODE
+      event :start do
+        transitions from: :waiting, to: :in_progress
+        transitions from: :pending, to: :in_progress
       end
+    CODE
+  end
 
-      it 'return transitions' do
-        expect(transitions[0].from).to eq :waiting
-        expect(transitions[0].to).to eq :in_progress
+  describe '#from' do
+    it { expect(instance1.from).to eq :waiting }
+    it { expect(instance2.from).to eq :pending }
+  end
 
-        expect(transitions[1].from).to eq :pending
-        expect(transitions[1].to).to eq :in_progress
-      end
-    end
+  describe '#to' do
+    it { expect(instance1.to).to eq :in_progress }
+    it { expect(instance2.to).to eq :in_progress }
   end
 end

@@ -52,7 +52,7 @@ module AasmParser
       end
 
       def events
-        event_nodes.map { |event_node| Event.parse(event_node) }
+        event_nodes.map { |event_node| Event.new(event_node) }
       end
 
       private

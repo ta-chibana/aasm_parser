@@ -4,7 +4,7 @@ module AasmParser
   module Aasm
     class State
       def initialize(state_node)
-        @node = state_node
+        @state_node = state_node
       end
 
       def names
@@ -28,7 +28,7 @@ module AasmParser
       private
 
       def state_arguments
-        @node
+        @state_node
           .children
           .last # type ARRAY
           .children
