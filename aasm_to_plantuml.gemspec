@@ -2,11 +2,11 @@
 
 lib = File.expand_path('lib', __dir__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'aasm_to_plantuml/version'
+require 'aasm_parser/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = 'aasm_to_plantuml'
-  spec.version       = AasmToPlantuml::VERSION
+  spec.name          = 'aasm_parser'
+  spec.version       = AasmParser::VERSION
   spec.authors       = ['ta-chibana']
   spec.email         = ['tachibana.gmc@gmail.com']
 

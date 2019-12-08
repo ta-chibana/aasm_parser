@@ -21,5 +21,5 @@ Metrics/LineLength:
 AllCops:
   Exclude:
     - 'vendor/**/*'
-    - 'aasm_to_plantuml.gemspec'
+    - 'aasm_parser.gemspec'
     - 'Guardfile'

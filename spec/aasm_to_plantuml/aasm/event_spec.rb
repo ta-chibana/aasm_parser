@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe AasmToPlantuml::Aasm::Event do
+RSpec.describe AasmParser::Aasm::Event do
   describe '.parse' do
     context 'when there is one transitions node' do
       let(:code) do
@@ -18,7 +18,7 @@ RSpec.describe AasmToPlantuml::Aasm::Event do
       subject(:instance) { described_class.parse(event_node) }
 
       it 'return Event instance' do
-        is_expected.to be_an_instance_of AasmToPlantuml::Aasm::Event
+        is_expected.to be_an_instance_of AasmParser::Aasm::Event
 
         expect(instance.name).to eq :start
         expect(instance.transition_nodes.size).to eq 1
@@ -43,7 +43,7 @@ RSpec.describe AasmToPlantuml::Aasm::Event do
       subject(:instance) { described_class.parse(event_node) }
 
       it 'return Event instance' do
-        is_expected.to be_an_instance_of AasmToPlantuml::Aasm::Event
+        is_expected.to be_an_instance_of AasmParser::Aasm::Event
 
         expect(instance.name).to eq :start
         expect(instance.transition_nodes.size).to eq 2
@@ -69,7 +69,7 @@ RSpec.describe AasmToPlantuml::Aasm::Event do
     subject { event.transitions }
 
     it 'return transitions' do
-      expect(AasmToPlantuml::Aasm::Transition)
+      expect(AasmParser::Aasm::Transition)
         .to receive(:parse_from)
         .with(event)
         .and_return(transitions)

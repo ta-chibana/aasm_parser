@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module AasmToPlantuml
+module AasmParser
   # 深さ優先探索のテスト用クラス
   class DepthFirstSearch
     def initialize(root)

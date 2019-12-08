@@ -2,7 +2,7 @@
 
 source 'https://rubygems.org'
 
-# Specify your gem's dependencies in aasm_to_plantuml.gemspec
+# Specify your gem's dependencies in aasm_parser.gemspec
 gemspec
 
 group :development do

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe AasmToPlantuml::Aasm::Block do
+RSpec.describe AasmParser::Aasm::Block do
   let(:code) do
     <<~CODE
       class Test
@@ -22,7 +22,7 @@ RSpec.describe AasmToPlantuml::Aasm::Block do
   end
 
   let(:node) { RubyVM::AbstractSyntaxTree.parse(code) }
-  let(:ast_block) { AasmToPlantuml::AasmNodeFinder.call(node) }
+  let(:ast_block) { AasmParser::AasmNodeFinder.call(node) }
 
   describe '#state_names' do
     subject { described_class.parse(ast_block).state_names }
@@ -65,7 +65,7 @@ RSpec.describe AasmToPlantuml::Aasm::Block do
     subject(:events) { described_class.parse(ast_block).events }
 
     it 'return events' do
-      is_expected.to all be_an_instance_of(AasmToPlantuml::Aasm::Event)
+      is_expected.to all be_an_instance_of(AasmParser::Aasm::Event)
 
       expect(events[0].name).to eq :start
       expect(events[1].name).to eq :finish

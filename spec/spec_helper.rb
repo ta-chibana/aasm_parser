@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'bundler/setup'
-require 'aasm_to_plantuml'
+require 'aasm_parser'
 require 'pry'
 
 RSpec.configure do |config|

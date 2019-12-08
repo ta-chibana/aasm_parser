@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-RSpec.describe AasmToPlantuml::Aasm::State do
+RSpec.describe AasmParser::Aasm::State do
   let(:node) { RubyVm::AbstractSyntaxTree.parse(code) }
-  let(:ast_block) { AasmToPlantuml::AasmNodeFinder.call(node) }
+  let(:ast_block) { AasmParser::AasmNodeFinder.call(node) }
 
   describe '#names' do
     let(:code) do

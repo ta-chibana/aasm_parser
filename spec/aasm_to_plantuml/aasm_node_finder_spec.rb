@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe AasmToPlantuml::AasmNodeFinder do
+RSpec.describe AasmParser::AasmNodeFinder do
   describe '.call' do
     let(:code) do
       <<~CODE

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module AasmToPlantuml
+module AasmParser
   class AasmNodeFinder
     def initialize(root)
       @root = root

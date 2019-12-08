@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module AasmToPlantuml
+module AasmParser
   module Aasm
     class Transition
       attr_reader :from, :to

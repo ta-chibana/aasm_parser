@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe AasmToPlantuml::DepthFirstSearch do
+RSpec.describe AasmParser::DepthFirstSearch do
   let(:node1) { double(:node1, value: 1, children: [node2, node3]) }
   let(:node2) { double(:node2, value: 2, children: [node4]) }
   let(:node3) { double(:node3, value: 3, children: [node5, node6]) }

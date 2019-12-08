@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe AasmToPlantuml::Aasm::Transition do
+RSpec.describe AasmParser::Aasm::Transition do
   describe '.parse_from' do
     subject(:transitions) { described_class.parse_from(event) }
 
@@ -8,7 +8,7 @@ RSpec.describe AasmToPlantuml::Aasm::Transition do
       RubyVM::AbstractSyntaxTree.parse(code).children.last
     end
 
-    let(:event) { AasmToPlantuml::Aasm::Event.parse(event_node) }
+    let(:event) { AasmParser::Aasm::Event.parse(event_node) }
 
     context 'when without options' do
       let(:code) do
