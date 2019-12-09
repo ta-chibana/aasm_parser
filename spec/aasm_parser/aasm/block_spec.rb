@@ -22,16 +22,16 @@ RSpec.describe AasmParser::Aasm::Block do
   end
 
   let(:node) { RubyVM::AbstractSyntaxTree.parse(code) }
-  let(:ast_block) { AasmParser::AasmNodeFinder.call(node) }
+  let(:block) { AasmParser::AasmNodeFinder.call(node) }
 
   describe '#state_names' do
-    subject { described_class.parse(ast_block).state_names }
+    subject { block.state_names }
 
     it { is_expected.to eq %i[waiting in_progress in_review finished] }
   end
 
   describe '#initial_state' do
-    subject { described_class.parse(ast_block).initial_state }
+    subject { block.initial_state }
 
     it { is_expected.to eq :waiting }
 
@@ -62,7 +62,7 @@ RSpec.describe AasmParser::Aasm::Block do
   end
 
   describe '#events' do
-    subject(:events) { described_class.parse(ast_block).events }
+    subject(:events) { block.events }
 
     it 'return events' do
       is_expected.to all be_an_instance_of(AasmParser::Aasm::Event)

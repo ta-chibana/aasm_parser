@@ -23,13 +23,8 @@ RSpec.describe AasmParser::AasmNodeFinder do
 
     let(:node) { RubyVM::AbstractSyntaxTree.parse(code) }
 
-    subject(:target_node) { described_class.call(node) }
+    subject { described_class.call(node) }
 
-    it 'aasm のスコープの要素が取得できる' do
-      expect(target_node.type).to eq :ITER
-      expect(target_node.children.size).to eq 2
-      expect(target_node.children.first.type).to eq :FCALL
-      expect(target_node.children.last.type).to eq :SCOPE
-    end
+    it { is_expected.to be_an_instance_of(AasmParser::Aasm::Block) }
   end
 end
