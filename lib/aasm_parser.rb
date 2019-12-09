@@ -10,6 +10,8 @@ require 'aasm_parser/depth_first_search'
 require 'active_support/core_ext/object/blank'
 
 class AasmParser
-  class Error < StandardError; end
-  # Your code goes here...
+  def self.parse_file(path)
+    root = RubyVM::AbstractSyntaxTree.parse_file(path)
+    AasmNodeFinder.call(root)
+  end
 end

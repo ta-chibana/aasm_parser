@@ -15,7 +15,8 @@ class AasmParser
     attr_reader :root
 
     def call
-      find_from_node(root)
+      aasm_node = find_from_node(root)
+      Aasm::Block.parse(aasm_node)
     end
 
     def find_from_node(node)
