@@ -6,7 +6,6 @@ require 'aasm_parser/aasm/block'
 require 'aasm_parser/aasm/state'
 require 'aasm_parser/aasm/event'
 require 'aasm_parser/aasm/transition'
-require 'aasm_parser/depth_first_search'
 require 'active_support/core_ext/object/blank'
 
 class AasmParser
