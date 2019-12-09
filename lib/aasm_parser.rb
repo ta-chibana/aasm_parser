@@ -9,7 +9,7 @@ require 'aasm_parser/aasm/transition'
 require 'aasm_parser/depth_first_search'
 require 'active_support/core_ext/object/blank'
 
-module AasmParser
+class AasmParser
   class Error < StandardError; end
   # Your code goes here...
 end

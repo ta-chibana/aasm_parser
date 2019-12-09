@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module AasmParser
+class AasmParser
   module Aasm
     class Block
       class << self
