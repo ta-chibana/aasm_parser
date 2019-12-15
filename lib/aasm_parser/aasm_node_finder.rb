@@ -23,8 +23,7 @@ class AasmParser
       return nil unless node.respond_to?(:type)
       return node if aasm_node?(node)
 
-      children = node.children
-      find_from_children(children)
+      find_from_children(node.children)
     end
 
     def find_from_children(children)
