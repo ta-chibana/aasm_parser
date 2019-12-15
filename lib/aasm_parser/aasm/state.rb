@@ -14,7 +14,7 @@ class AasmParser
       end
 
       def initial_state?
-        return false if options.nil?
+        return false if options.blank?
 
         lit_node_index = options.find_index do |e|
           e.type == :LIT && e.children[0] == :initial
