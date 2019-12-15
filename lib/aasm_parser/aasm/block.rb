@@ -33,7 +33,7 @@ class AasmParser
       end
 
       def initialize(ast_block)
-        @ast = ast_block
+        @ast_block = ast_block
       end
 
       def initial_state
@@ -57,10 +57,10 @@ class AasmParser
 
       private
 
-      attr_reader :ast
+      attr_reader :ast_block
 
       def children
-        @children ||= ast.children
+        @children ||= ast_block.children
       end
 
       def state_nodes
