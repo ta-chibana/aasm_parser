@@ -21,7 +21,7 @@ class AasmParser
 
     def find_from_node(node)
       return nil unless node.respond_to?(:type)
-      return node if node_of_aasm_scope?(node)
+      return node if aasm_node?(node)
 
       children = node.children
       find_from_children(children)
@@ -37,7 +37,7 @@ class AasmParser
       find_from_children(tail)
     end
 
-    def node_of_aasm_scope?(node)
+    def aasm_node?(node)
       return false unless node&.type == :ITER
 
       first_child = node.children.first
